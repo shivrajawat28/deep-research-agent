@@ -1,9 +1,6 @@
-from langchain.agents import create_agent
 from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from tools import web_search, scrape_url
-from rich import print
 import os
 from dotenv import load_dotenv
 
@@ -21,21 +18,6 @@ llm = ChatHuggingFace(
     llm=llm_endpoint,
     temperature=0
 )
-
-#first agent
-def build_search_agent():
-    return create_agent(
-        model = llm,
-        tools = [web_search]
-    )
-
-#second agent
-def build_reader_agent():
-    return create_agent(
-        model = llm,
-        tools = [scrape_url]
-    )
-
 
 #LCEL pipeline
 writer_prompt = ChatPromptTemplate.from_messages([

@@ -1,7 +1,7 @@
 import re
 
-from agents import build_reader_agent, build_search_agent, writer_chain, critic_chain
-from tools import scrape_url
+from agents import writer_chain, critic_chain
+from tools import scrape_url, web_search
 
 
 def extract_first_url(text: str) -> str | None:
@@ -16,13 +16,10 @@ def run_research_pipleline(topic: str) -> dict:
     #search agent working
     print("\n"+" = "* 50)
     print("Step 1 - Search agent is working")
-    
-    search_agent = build_search_agent()
-    search_result = search_agent.invoke({
-        "messages": [("user", f"Find recent, reliable and detailed information about {topic}.")]
-    })
 
-    state['search_result'] = search_result['messages'][-1].content
+    state['search_result'] = web_search.invoke(
+        {"query": f"{topic} recent reliable detailed information"}
+    )
 
     print("\n search result", state['search_result'])
 
@@ -31,20 +28,11 @@ def run_research_pipleline(topic: str) -> dict:
     print("\n"+" = "* 50)
     print("Step 2 - Reader agent is working")
 
-    reader_agent = build_reader_agent()
-    reader_result = reader_agent.invoke({
-        "messages": [("user",
-            f"Based on the following search results about '{topic}', "
-            f"pick the most relevant URL and scrape it for deeper content. "
-            f"Return the scraped article text, not only the URL. \n\n"
-            f"Search Result: \n{state['search_result']}"
-        )]
-    })
-    state['scraped_content'] = reader_result['messages'][-1].content
-
-    url_to_scrape = extract_first_url(state['scraped_content']) or extract_first_url(state['search_result'])
-    if url_to_scrape and len(state['scraped_content']) < 1500:
+    url_to_scrape = extract_first_url(state['search_result'])
+    if url_to_scrape:
         state['scraped_content'] = scrape_url.invoke({"url": url_to_scrape})
+    else:
+        state['scraped_content'] = "No scrapeable URL was found in the search results."
 
     print("\nscraped content", state['scraped_content'])
 
