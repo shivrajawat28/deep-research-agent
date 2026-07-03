@@ -1,0 +1,96 @@
+# ==========================
+# Core AI & LLM
+# ==========================
+langchain
+langchain-core
+langchain-community
+langchain-huggingface
+langgraph
+
+# ==========================
+# Hugging Face
+# ==========================
+huggingface_hub
+transformers
+sentence-transformers
+accelerate
+tokenizers
+
+# ==========================
+# Search Tools
+# ==========================
+tavily-python
+
+# ==========================
+# API & Backend
+# ==========================
+fastapi
+uvicorn[standard]
+python-multipart
+
+# ==========================
+# Environment Variables
+# ==========================
+python-dotenv
+
+# ==========================
+# HTTP Requests
+# ==========================
+requests
+httpx
+
+# ==========================
+# Data Validation
+# ==========================
+pydantic
+
+# ==========================
+# Utilities
+# ==========================
+typing_extensions
+tenacity
+tqdm
+
+# ==========================
+# Markdown Rendering
+# ==========================
+markdown
+markdownify
+
+# ==========================
+# HTML Parsing
+# ==========================
+beautifulsoup4
+lxml
+
+# ==========================
+# JSON Handling
+# ==========================
+orjson
+
+# ==========================
+# Logging
+# ==========================
+loguru
+
+# ==========================
+# Async Support
+# ==========================
+aiofiles
+nest-asyncio
+
+# ==========================
+# Optional Data Handling
+# ==========================
+pandas
+numpy
+
+# ==========================
+# Optional Rich Terminal
+# ==========================
+rich
+
+# ==========================
+# Optional Token Counting
+# ==========================
+tiktoken
