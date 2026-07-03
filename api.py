@@ -1,5 +1,6 @@
 import re
 import asyncio
+import os
 from concurrent.futures import ThreadPoolExecutor
 from typing import Any
 
@@ -16,14 +17,22 @@ class ResearchRequest(BaseModel):
 
 app = FastAPI(title="Deep Research AI API")
 
+default_origins = [
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+]
+
+frontend_origins = [
+    origin.strip()
+    for origin in os.getenv("FRONTEND_ORIGINS", "").split(",")
+    if origin.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174",
-    ],
+    allow_origins=default_origins + frontend_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
