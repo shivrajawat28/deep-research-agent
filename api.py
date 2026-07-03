@@ -33,6 +33,7 @@ frontend_origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=default_origins + frontend_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -156,6 +157,14 @@ def ensure_complete_report(state: dict[str, Any], sources: list[dict[str, str]])
 @app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+@app.get("/")
+def root() -> dict[str, str]:
+    return {
+        "status": "ok",
+        "message": "Deep Research AI backend is running. Use /api/research for requests.",
+    }
 
 
 @app.post("/api/research")
